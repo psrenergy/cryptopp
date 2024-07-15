@@ -1100,5 +1100,6 @@
     <CustomBuild Include="adhoc.cpp.proto">
       <Filter>Miscellaneous</Filter>
     </CustomBuild>
+    <CustomBuild Include="x64dll.asm" />
   </ItemGroup>
 </Project>

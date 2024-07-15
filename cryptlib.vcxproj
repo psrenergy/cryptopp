@@ -89,10 +89,6 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-dynamic|x64'">
-    <OutDir>$(Platform)\Output\$(Configuration)\</OutDir>
-    <IntDir>$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
-  </PropertyGroup>
   <!-- End of Visual Studio boilerplate -->
   <!-- All Configurations -->
   <PropertyGroup Label="All Configurations">
@@ -105,7 +101,7 @@
   </PropertyGroup>
   <!-- Intermediate and Output directories -->
   <!-- Cryptlib and Cryptest need extra care due to Non-DLL/DLL configs -->
-  <PropertyGroup Condition="'$(Configuration)'=='Debug' Or '$(Configuration)'=='Release'" Label="Non-DLL Directories">
+  <PropertyGroup Condition="'$(Configuration)'=='Debug' Or '$(Configuration)'=='Release' Or '$(Configuration)'=='Release-dynamic'" Label="Non-DLL Directories">
     <OutDir>$(Platform)\Output\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -148,7 +144,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <!-- Release Configurations -->
-  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release' Or '$(Configuration)'=='DLL-Import Release'" Label="Release Configuration">
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release' Or '$(Configuration)'=='DLL-Import Release' Or '$(Configuration)' == 'Release-dynamic'" Label="Release Configuration">
     <ClCompile>
       <PreprocessorDefinitions>NDEBUG;USE_PRECOMPILED_HEADERS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <OmitFramePointers>true</OmitFramePointers>
@@ -157,12 +153,21 @@
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
     </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release' Or '$(Configuration)'=='DLL-Import Release'" Label="Release Configuration">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release-dynamic'" Label="Release Configuration">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+    </ClCompile>
   </ItemDefinitionGroup>
   <!-- DLL-Import Overrides for Preprocessor -->
   <ItemDefinitionGroup Condition="'$(Configuration)'=='DLL-Import Debug'" Label="DLL Debug Configuration">
@@ -190,11 +195,6 @@
     <Lib>
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release-dynamic|x64'">
-    <ClCompile>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-    </ClCompile>
   </ItemDefinitionGroup>
   <!-- Original File with special treatment -->
   <!-- Source Files -->
@@ -424,7 +424,7 @@
       <Command>ml64.exe /c /nologo /D_M_X64 /W3 /Cx /Zi /Fo"$(IntDir)rdseed-x64.obj" "%(FullPath)"</Command>
       <Outputs>$(IntDir)\rdseed-x64.obj;%(Outputs)</Outputs>
     </CustomBuild>
-    <CustomBuild Condition="'$(Platform)'=='x64' AND ('$(Configuration)'=='Debug' Or '$(Configuration)'=='Release')" Include="x64dll.asm">
+    <CustomBuild Condition="'$(Platform)'=='x64' AND ('$(Configuration)'=='Debug' Or '$(Configuration)'=='Release' Or '$(Configuration)'=='Release-dynamic')" Include="x64dll.asm">
       <Message>Building and assembling x64dll.asm</Message>
       <Command>ml64.exe /c /nologo /D_M_X64 /W3 /Zi /Fo"$(IntDir)x64dll.obj" "%(FullPath)"</Command>
       <Outputs>$(IntDir)x64dll.obj;%(Outputs)</Outputs>
