@@ -138,7 +138,7 @@
   <!-- Debug Configurations -->
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug' Or '$(Configuration)'=='Debug-dynamic' Or '$(Configuration)'=='DLL-Import Debug'" Label="Debug Configuration">
     <ClCompile>
-      <PreprocessorDefinitions>USE_PRECOMPILED_HEADERS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;USE_PRECOMPILED_HEADERS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
